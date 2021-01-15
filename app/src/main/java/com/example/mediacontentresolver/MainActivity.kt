@@ -15,5 +15,7 @@ class MainActivity : AppCompatActivity() {
         mediaContentResolver.requestPermission(this)
         val str = mediaContentResolver.getFolderList().toString()
         activityMainBinding.tv.text = str
+
+        activityMainBinding.tv1.text = mediaContentResolver.getFolderListWithCount().toString()
     }
 }

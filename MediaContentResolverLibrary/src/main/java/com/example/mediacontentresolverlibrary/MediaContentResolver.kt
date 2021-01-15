@@ -9,6 +9,8 @@ interface MediaContentResolver {
 
     fun getFolderList(): ArrayList<String>
 
+    fun getFolderListWithCount() : Map<String, Int>
+
     companion object {
         fun newInstance(context: Context): MediaContentResolver {
             return MediaContentResolverImpl(context)

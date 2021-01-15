@@ -42,6 +42,30 @@ internal class MediaContentResolverImpl(val context: Context) : MediaContentReso
         return requestPicFolderList(context)
     }
 
+    override fun getFolderListWithCount(): Map<String, Int> {
+        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val projection = arrayOf(
+            MediaStore.Images.Media.BUCKET_DISPLAY_NAME
+        )
+        val cursor = context.contentResolver.query(uri, projection, null, null, null)
+        val folderMap: MutableMap<String, Int> = TreeMap<String, Int>()
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                val columnIndex = cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+                val folder = cursor.getString(columnIndex)
+                try {
+                    if(folderMap[folder] == null) folderMap[folder] = 0
+
+                    folderMap[folder] = folderMap.get(folder)!!.plus(1)
+                } catch (e: Exception) {
+
+                }
+            }
+            cursor.close()
+        }
+        return folderMap
+    }
+
     fun requestPicFolderList(context: Context): ArrayList<String> {
         val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(

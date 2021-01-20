@@ -19,4 +19,11 @@
         android:layout_height="wrap_content"
         android:text="Hello World!" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
+        android:background="#DEDEDE"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"/>
+
 </LinearLayout>

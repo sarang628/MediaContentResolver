@@ -66,6 +66,28 @@ internal class MediaContentResolverImpl(val context: Context) : MediaContentReso
         return folderMap
     }
 
+    override fun getPictureList(): ArrayList<String> {
+        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val projection = arrayOf(
+            MediaStore.Images.Media.DATA
+        )
+        val cursor = context.contentResolver.query(uri, projection, null, null, null)
+        val folderMap = ArrayList<String>()
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                val columnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
+                try {
+                    val folder = cursor.getString(columnIndex)
+                    folderMap.add(folder)
+                }catch (e : Exception){
+
+                }
+            }
+            cursor.close()
+        }
+        return folderMap
+    }
+
     fun requestPicFolderList(context: Context): ArrayList<String> {
         val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(

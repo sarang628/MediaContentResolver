@@ -15,7 +15,7 @@ class MediaColunmActivity : AppCompatActivity() {
         mediaContentResolver.requestPermission(this)
 
         binding.rv.adapter = ImgAdapter().apply {
-            setPicturePaths(mediaContentResolver.getPictureList())
+            setPicturePaths(mediaContentResolver.getDetailPictureList())
         }
     }
 }

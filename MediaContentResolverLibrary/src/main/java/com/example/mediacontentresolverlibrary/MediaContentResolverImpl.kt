@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.example.mediacontentresolverlibrary.data.PictureDetail
 import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
@@ -138,6 +139,41 @@ internal class MediaContentResolverImpl(private val context: Context) : MediaCon
             cursor.close()
         }
         return folderMap
+    }
+
+    override fun getDetailPictureList(): ArrayList<PictureDetail> {
+        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val cursor = context.contentResolver.query(uri, null, null, null, null)
+        val list = ArrayList<PictureDetail>()
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                try {
+                    val columnNames = cursor.columnNames
+                    val data =
+                        cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                    var info = StringBuffer()
+                    for (colunmName in columnNames) {
+                        val index = cursor.getColumnIndex(colunmName)
+                        if (cursor.getType(index) == Cursor.FIELD_TYPE_INTEGER) {
+                            info.append(colunmName + ":" + cursor.getInt(index).toString())
+                        } else if (cursor.getType(index) == Cursor.FIELD_TYPE_FLOAT) {
+                            info.append(colunmName + ":" + cursor.getFloat(index).toString())
+                        } else if (cursor.getType(index) == Cursor.FIELD_TYPE_STRING) {
+                            info.append(colunmName + ":" + cursor.getString(index).toString())
+                        } else if (cursor.getType(index) == Cursor.FIELD_TYPE_NULL) {
+                            info.append("$colunmName:Cursor.FIELD_TYPE_NULL")
+                        }
+                        info.append(System.getProperty("line.separator"))
+                    }
+                    list.add(PictureDetail(data, info.toString()))
+
+                } catch (e: Exception) {
+
+                }
+            }
+            cursor.close()
+        }
+        return list
     }
 
     override fun getPictureListImageData(folderPath: String): ArrayList<ImageData> {

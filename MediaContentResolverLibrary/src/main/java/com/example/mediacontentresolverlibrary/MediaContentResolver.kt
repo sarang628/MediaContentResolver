@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
+import com.example.mediacontentresolverlibrary.data.PictureDetail
 
 /**
  *
@@ -21,6 +22,8 @@ interface MediaContentResolver {
     fun getPictureList(): ArrayList<String>
 
     fun getPictureList(folderPath: String): ArrayList<String>
+
+    fun getDetailPictureList(): ArrayList<PictureDetail>
 
     fun getPictureListImageData(folderPath: String): ArrayList<ImageData>
 

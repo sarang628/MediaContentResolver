@@ -9,6 +9,7 @@ import android.database.Cursor
 import android.media.Image
 import android.os.Build
 import android.provider.MediaStore
+import android.text.TextUtils
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -159,11 +160,9 @@ internal class MediaContentResolverImpl(private val context: Context) : MediaCon
     override fun getPictureListCursor(folderPath: String): Cursor? {
         val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(
-            MediaStore.Images.Media.DATA,
-            MediaStore.Images.Media.RELATIVE_PATH
+            MediaStore.Images.Media.DATA
         )
-        val selection = MediaStore.Images.Media.RELATIVE_PATH + "=" + folderPath
-        return context.contentResolver.query(uri, projection, selection, null, null)
+        return context.contentResolver.query(uri, projection, null, null, null)
     }
 
     override fun getFolderListCursor(): Cursor? {
@@ -176,5 +175,50 @@ internal class MediaContentResolverImpl(private val context: Context) : MediaCon
         return cursor
     }
 
+    override fun printAvailableMediaColunm() {
+        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val cursor = context.contentResolver.query(uri, null, null, null, null)
 
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                try {
+                    val columnNames = cursor.columnNames
+                    cursor.close()
+                    Log.d("__sryang", Arrays.toString(columnNames))
+                    return
+                } catch (e: Exception) {
+
+                }
+            }
+            cursor.close()
+        }
+    }
+
+    override fun printAvailableMediaColunmWithContents() {
+        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val cursor = context.contentResolver.query(uri, null, null, null, null)
+
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                try {
+                    val columnNames = cursor.columnNames
+                    for (colunmName in columnNames) {
+                        val index = cursor.getColumnIndex(colunmName)
+                        if (cursor.getType(index) == Cursor.FIELD_TYPE_INTEGER) {
+                            Log.d("__sryang", colunmName + ":" + cursor.getInt(index).toString())
+                        } else if (cursor.getType(index) == Cursor.FIELD_TYPE_FLOAT) {
+                            Log.d("__sryang", colunmName + ":" + cursor.getFloat(index).toString())
+                        } else if (cursor.getType(index) == Cursor.FIELD_TYPE_STRING) {
+                            Log.d("__sryang", colunmName + ":" + cursor.getString(index).toString())
+                        }
+                    }
+                    cursor.close()
+                    return
+                } catch (e: Exception) {
+
+                }
+            }
+            cursor.close()
+        }
+    }
 }

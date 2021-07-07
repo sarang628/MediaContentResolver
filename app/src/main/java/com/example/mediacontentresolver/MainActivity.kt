@@ -1,5 +1,6 @@
 package com.example.mediacontentresolver
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,12 +17,12 @@ class MainActivity : AppCompatActivity() {
         val activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
 
+        activityMainBinding.btnSimple.setOnClickListener {
+            startActivity(Intent(this, SimpleExample::class.java))
+        }
+
         val mediaContentResolver = MediaContentResolver.newInstance(this)
         mediaContentResolver.requestPermission(this)
-        val str = mediaContentResolver.getFolderList().toString()
-        activityMainBinding.tv.text = str
-
-        activityMainBinding.tv1.text = mediaContentResolver.getFolderListWithCount().toString()
 
         activityMainBinding.rv.adapter = ImgAdapter().apply {
             setPicturePaths(mediaContentResolver.getPictureList())
@@ -29,15 +30,18 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-class ImgAdapter : RecyclerView.Adapter<ImageViewHolder>(){
+class ImgAdapter : RecyclerView.Adapter<ImageViewHolder>() {
     var picturePath = ArrayList<String>()
 
-    fun setPicturePaths(list : ArrayList<String>){
+    fun setPicturePaths(list: ArrayList<String>) {
         picturePath = list
         notifyDataSetChanged()
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        return ImageViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_img, parent, false))
+        return ImageViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_img, parent, false)
+        )
     }
 
     override fun getItemCount(): Int {
@@ -53,6 +57,6 @@ class ImgAdapter : RecyclerView.Adapter<ImageViewHolder>(){
     }
 }
 
-class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 }

@@ -5,6 +5,9 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
 
+/**
+ *
+ */
 interface MediaContentResolver {
 
     fun requestPermission(activity: Activity)

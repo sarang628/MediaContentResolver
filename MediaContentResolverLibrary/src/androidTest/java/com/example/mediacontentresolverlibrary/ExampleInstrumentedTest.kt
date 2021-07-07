@@ -21,4 +21,13 @@ class ExampleInstrumentedTest {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.example.mediacontentresolverlibrary.test", appContext.packageName)
     }
+
+    @Test
+    fun test1() {
+        // Context of the app under test.
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+
+        System.out.println("__sarang !!!!!!!!!!!!!")
+        System.out.println(MediaContentResolver.newInstance(appContext).getFolderList().toString())
+    }
 }

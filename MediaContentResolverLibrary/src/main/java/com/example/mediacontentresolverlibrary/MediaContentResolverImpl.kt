@@ -18,7 +18,7 @@ import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
-internal class MediaContentResolverImpl(val context: Context) : MediaContentResolver {
+internal class MediaContentResolverImpl(private val context: Context) : MediaContentResolver {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     override fun requestPermission(activity: Activity) {
@@ -28,21 +28,21 @@ internal class MediaContentResolverImpl(val context: Context) : MediaContentReso
         if (isPermission == PackageManager.PERMISSION_DENIED) {
             val b = AlertDialog.Builder(activity)
             b.setMessage("이미지를 등록하기위해선 저장소 읽기 권한이 필요합니다. 허용하시겠습니까?")
-            b.setPositiveButton("yes") { dialogInterface: DialogInterface?, i: Int ->
+            b.setPositiveButton("yes") { _: DialogInterface?, _: Int ->
                 activity.requestPermissions(
                     arrayOf(
                         Manifest.permission.READ_EXTERNAL_STORAGE
                     ), 0x01
                 )
             }
-            b.setNegativeButton("no") { dialogInterface: DialogInterface?, i: Int -> activity.finish() }
+            b.setNegativeButton("no") { _: DialogInterface?, _: Int -> activity.finish() }
             b.show()
         }
     }
 
     override fun getFolderList(): ArrayList<String> {
         val cursor = getFolderListCursor()
-        val folderMap: MutableMap<String, String> = TreeMap<String, String>()
+        val folderMap: MutableMap<String, String> = TreeMap()
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 val columnIndex = cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)

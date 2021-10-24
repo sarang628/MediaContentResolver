@@ -26,14 +26,14 @@ internal class MediaContentResolverImpl(private val context: Context) : MediaCon
     override fun requestPermission(activity: Activity) {
         //권한 체크 하기
         val isPermission =
-            ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+            ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         if (isPermission == PackageManager.PERMISSION_DENIED) {
             val b = AlertDialog.Builder(activity)
             b.setMessage("이미지를 등록하기위해선 저장소 읽기 권한이 필요합니다. 허용하시겠습니까?")
             b.setPositiveButton("yes") { _: DialogInterface?, _: Int ->
                 activity.requestPermissions(
                     arrayOf(
-                        Manifest.permission.READ_EXTERNAL_STORAGE
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
                     ), 0x01
                 )
             }
@@ -104,9 +104,12 @@ internal class MediaContentResolverImpl(private val context: Context) : MediaCon
     override fun getPictureList(): ArrayList<String> {
         val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(
-            MediaStore.Images.Media.DATA
+            MediaStore.Images.Media.DATA,
+            MediaStore.Images.Media.DATE_TAKEN
         )
-        val cursor = context.contentResolver.query(uri, projection, null, null, null)
+
+        val sortOrder = "${MediaStore.Video.Media.DATE_TAKEN} DESC"
+        val cursor = context.contentResolver.query(uri, projection, null, null, sortOrder)
         val folderMap = ArrayList<String>()
         if (cursor != null) {
             while (cursor.moveToNext()) {
@@ -143,7 +146,8 @@ internal class MediaContentResolverImpl(private val context: Context) : MediaCon
 
     override fun getDetailPictureList(): ArrayList<PictureDetail> {
         val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val cursor = context.contentResolver.query(uri, null, null, null, null)
+        val sortOrder = "${MediaStore.Video.Media.DATE_TAKEN} DESC"
+        val cursor = context.contentResolver.query(uri, null, null, null, sortOrder)
         val list = ArrayList<PictureDetail>()
         if (cursor != null) {
             while (cursor.moveToNext()) {
@@ -196,9 +200,14 @@ internal class MediaContentResolverImpl(private val context: Context) : MediaCon
     override fun getPictureListCursor(folderPath: String): Cursor? {
         val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(
-            MediaStore.Images.Media.DATA
+            MediaStore.Images.Media.DATA,
+            MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
+            MediaStore.Images.Media.DATE_TAKEN
         )
-        return context.contentResolver.query(uri, projection, null, null, null)
+        val selection = "${MediaStore.Video.Media.BUCKET_DISPLAY_NAME} = ?"
+        val selectionArgs = arrayOf(folderPath)
+        val sortOrder = "${MediaStore.Video.Media.DATE_TAKEN} DESC"
+        return context.contentResolver.query(uri, projection, selection, selectionArgs, sortOrder)
     }
 
     override fun getFolderListCursor(): Cursor? {

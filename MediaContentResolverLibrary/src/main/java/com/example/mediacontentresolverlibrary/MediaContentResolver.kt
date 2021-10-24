@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
 import com.example.mediacontentresolverlibrary.data.PictureDetail
+import com.example.mediacontentresolverlibrary.saf.SAFMediaContentResolverImpl
 
 /**
  *
@@ -37,6 +38,10 @@ interface MediaContentResolver {
     companion object {
         fun newInstance(context: Context): MediaContentResolver {
             return MediaContentResolverImpl(context)
+        }
+
+        fun newInstance1(context: Context): MediaContentResolver {
+            return SAFMediaContentResolverImpl(context)
         }
     }
 }

@@ -26,14 +26,14 @@ internal class MediaContentResolverImpl(private val context: Context) : MediaCon
     override fun requestPermission(activity: Activity) {
         //권한 체크 하기
         val isPermission =
-            ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
         if (isPermission == PackageManager.PERMISSION_DENIED) {
             val b = AlertDialog.Builder(activity)
             b.setMessage("이미지를 등록하기위해선 저장소 읽기 권한이 필요합니다. 허용하시겠습니까?")
             b.setPositiveButton("yes") { _: DialogInterface?, _: Int ->
                 activity.requestPermissions(
                     arrayOf(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        Manifest.permission.READ_EXTERNAL_STORAGE
                     ), 0x01
                 )
             }

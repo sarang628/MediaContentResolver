@@ -1,21 +1,18 @@
 package com.example.mediacontentresolver.media_colunm
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.example.mediacontentresolver.databinding.ActivityMediaColunmBinding
-import com.example.mediacontentresolverlibrary.MediaContentResolver
+import android.app.Activity
 
-class MediaColunmActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val binding = ActivityMediaColunmBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+class MediaColunmActivity : Activity() {
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        val binding = ActivityMediaColunmBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
 
-        val mediaContentResolver = MediaContentResolver.newInstance(this)
-        mediaContentResolver.requestPermission(this)
+//        val mediaContentResolver = MediaContentResolver.newInstance(this)
+//        mediaContentResolver.requestPermission(this)
 
-        binding.rv.adapter = ImgAdapter().apply {
-            setPicturePaths(mediaContentResolver.getDetailPictureList())
-        }
-    }
+//        binding.rv.adapter = ImgAdapter().apply {
+//            setPicturePaths(mediaContentResolver.getDetailPictureList())
+//        }
+//    }
 }

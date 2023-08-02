@@ -2,23 +2,19 @@ package com.example.mediacontentresolverlibrary
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.database.Cursor
-import android.media.Image
 import android.os.Build
 import android.provider.MediaStore
-import android.text.TextUtils
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.mediacontentresolverlibrary.data.PictureDetail
-import java.lang.Exception
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Arrays
+import java.util.TreeMap
 
 internal class MediaContentResolverImpl(private val context: Context) : MediaContentResolver {
 

@@ -9,12 +9,12 @@ https://developer.android.com/training/data-storage/app-specific#media
 ```
 
 ## Photo picker
-미디어 스토어를 대신 안드로이드에 탑제되어있는 Android photo picker을 사용 할 수 있습니다. 권한없이 사용자가 안전하게 사진을 선택 할 수 있습니다. 지원되는 기기들이 한정되어있으니 참고바랍니다.
+media store 대신 Android photo picker을 사용 할 수 있습니다. OS에 탑제되어있는 기능입니다. 권한없이 사용자가 안전하게 사진을 선택 할 수 있습니다. 지원되는 기기들이 한정되어있으니 참고바랍니다.
 
 https://developer.android.com/training/data-storage/shared/photopicker
 
 ## Media Store
-To interact with the media store abstraction, use a ContentResolver object that you retrieve from your app's context:
+media store 는 ContentResolver 사용해 접근할 수 있습니다. 
 ```
 val projection = arrayOf(media-database-columns-to-retrieve)
 val selection = sql-where-clause-with-placeholder-variables
@@ -34,16 +34,21 @@ applicationContext.contentResolver.query(
     }
 }
 ```
-The system automatically scans an external storage volume and adds media files to the following well-defined collections:
 
-Images, including photographs and screenshots, which are stored in the DCIM/ and Pictures/ directories. The system adds these files to the MediaStore.Images table.
-Videos, which are stored in the DCIM/, Movies/, and Pictures/ directories. The system adds these files to the MediaStore.Video table.
-Audio files, which are stored in the Alarms/, Audiobooks/, Music/, Notifications/, Podcasts/, and Ringtones/ directories. Additionally, the system recognizes audio playlists that are in the Music/ or Movies/ directories as well as voice recordings that are in the Recordings/ directory. The system adds these files to the MediaStore.Audio table. The Recordings/ directory isn't available on Android 11 (API level 30) and lower.
-Downloaded files, which are stored in the Download/ directory. On devices that run Android 10 (API level 29) and higher, these files are stored in the MediaStore.Downloads table. This table isn't available on Android 9 (API level 28) and lower.
-The media store also includes a collection called MediaStore.Files. Its contents depend on whether your app uses scoped storage, available on apps that target Android 10 or higher.
+위 코드 사용시 외장 메모리에 있는 사진에도 접근 할 수 있습니다:
 
-If scoped storage is enabled, the collection shows only the photos, videos, and audio files that your app has created. Most developers don't need to use MediaStore.Files to view media files from other apps, but if you have a specific requirement to do so, you can declare the READ_EXTERNAL_STORAGE permission. We recommend, however, that you use the MediaStore APIs to open files that your app hasn't created.
-If scoped storage is unavailable or not being used, the collection shows all types of media files.
+- DCIM/ and Pictures/ 디렉토리에 있는 이미지 검색. 
+- DCIM/, Movies/, and Pictures/ 디렉토리에 있는 비디오 검색.
+- Alarms/, Audiobooks/, Music/, Notifications/, Podcasts/, and Ringtones/ 오디오 검색
+- Download/ 다운로드 파일 (Android 10 (API level 29) 이상 에서 동작)
+- Recordings/ 음성 (Android 11 (API level 30) 이하 사용 불가)
+- Music/ or Movies/ 오디오 플레이리스트
+- MediaStore.Images, MediaStore.Video, MediaStore.Audio. MediaStore.Downloads(Android 10 (API level 29)이상) 테이블에 정보 저장
+- MediaStore.Files (Android 10 이상) scoped storage 범위에 따라 파일 표시
+- scoped storage를 지원한다면 앱에서 생성한 사진, 비디오, 오디오만 표시
+- scoped storage를 지원하지 않는다면 모든 파일 표시
+Most developers don't need to use MediaStore.Files to view media files from other apps, but if you have a specific requirement to do so, you can declare the READ_EXTERNAL_STORAGE permission. We recommend, however, that you use the MediaStore APIs to open files that your app hasn't created.
+
 
 ## 안드로이드 프레임워크 미디어
 https://developer.android.com/reference/android/provider/MediaStore

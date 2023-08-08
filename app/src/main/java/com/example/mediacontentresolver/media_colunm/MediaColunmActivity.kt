@@ -1,8 +1,10 @@
 package com.example.mediacontentresolver.media_colunm
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import com.example.mediacontentresolverlibrary.MediaContentResolver
 
@@ -11,10 +13,14 @@ class MediaColunmActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Text(text = "test")
+            Button(onClick = {
+                val mediaContentResolver = MediaContentResolver.newInstance(this)
+                mediaContentResolver.requestPermission(this)
+                Log.d("MediaColunmActivity",
+                    mediaContentResolver.getDetailPictureList().toString())
+            }) {
 
+            }
         }
-//        val mediaContentResolver = MediaContentResolver.newInstance(this)
-//        mediaContentResolver.requestPermission(this)
-//        mediaContentResolver.getDetailPictureList()
     }
 }

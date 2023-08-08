@@ -49,15 +49,43 @@ applicationContext.contentResolver.query(
 - scoped storage를 지원하지 않는다면 모든 파일 표시
 Most developers don't need to use MediaStore.Files to view media files from other apps, but if you have a specific requirement to do so, you can declare the READ_EXTERNAL_STORAGE permission. We recommend, however, that you use the MediaStore APIs to open files that your app hasn't created.
 
+# Request necessary permissions
+미디어 파일에 접근을 위해서는 권한을 요청해야합니다. 필요로하는 파일에 해당하는 권한만 요청하도록, 권한이 어떤 파일들을 접근을 가능하게 해주는지 잘 파악해야합니다.
+
+## 저장소 권한
+앱 자체에서 생성한 미디어 파일에만 접근 할 경우 권한 요청은 필요없습니다.
+
+### 앱이 소유한 미디어 파일에 접근
+안드로이드 10 이상에서는 저장소 관련 권한 필요로 하지 않습니다.
+
+### 다른 미디어 파일에 접근
+
+```
+<!-- 이미지/사진 only -->
+<uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
+<!-- 비디오만 only -->
+<uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+
+<!-- 오디오만 only -->
+<uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+                 android:maxSdkVersion="29" />
+```
+
+# Check for updates to the media store
+soon..
+
+# Query a media collection
+
 
 ## 안드로이드 프레임워크 미디어
 https://developer.android.com/reference/android/provider/MediaStore
 
-
-
 ![sample](./sample/sample.png)
-
-
 
 ```
 interface MediaContentResolver {

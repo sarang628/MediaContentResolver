@@ -1,7 +1,6 @@
 package com.example.mediacontentresolverlibrary
 
 import android.Manifest
-import android.content.Context
 import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -29,29 +28,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.mediacontentresolverlibrary.data.PictureAll
-
-class MediaDbTest {
-    fun test(applicationContext: Context) {
-        val projection = arrayOf("")//arrayOf(media-database-columns-to-retrieve)
-        val selection = ""//sql-where-clause-with-placeholder-variables
-        val selectionArgs = arrayOf("")//values-of-placeholder-variables
-        val sortOrder = ""//sql-order-by-clause
-
-        applicationContext.contentResolver.query(
-            //MediaStore.media-type.Media.EXTERNAL_CONTENT_URI,
-            MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-            projection,
-            selection,
-            selectionArgs,
-            sortOrder
-        )?.use { cursor ->
-            while (cursor.moveToNext()) {
-                // Use an ID column from the projection to get
-                // a URI representing the media item itself.
-            }
-        }
-    }
-}
 
 @Preview
 @Composable

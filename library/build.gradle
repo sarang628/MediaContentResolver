@@ -64,4 +64,6 @@ dependencies {
 
     //rememberLauncherForActivityResult
     implementation 'androidx.activity:activity-compose:1.7.2'
+
+    implementation 'com.github.sarang628:ComposePermissionTest:194f47a9e7'
 }

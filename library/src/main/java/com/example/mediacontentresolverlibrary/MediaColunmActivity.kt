@@ -1,4 +1,4 @@
-package com.example.mediacontentresolver.media_colunm
+package com.example.mediacontentresolverlibrary
 
 import android.os.Bundle
 import android.util.Log

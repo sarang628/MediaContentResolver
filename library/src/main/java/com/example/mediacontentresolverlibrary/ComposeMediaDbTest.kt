@@ -31,68 +31,27 @@ import com.example.mediacontentresolverlibrary.data.PictureAll
 
 @Preview
 @Composable
-fun PreViewMediaDbTest() {
+fun PreviewComposeMediaDbTest() {
 
-    val launch = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission(),
-        onResult = {
-
-        })
-
-    val context = LocalContext.current
-    var expand by remember { mutableStateOf(false) }
     var list: List<PictureAll> by remember { mutableStateOf(ArrayList<PictureAll>()) }
     val TAG = "MediaDbTest";
+    val context = LocalContext.current
 
     Box(Modifier.fillMaxSize()) {
-        //상단 드롭다운
         Column {
-            Button(onClick = {
-                expand = true
-            }) {
-                Text(text = "MediaStore")
-            }
-            DropdownMenu(
-                expanded = expand, onDismissRequest = { /*TODO*/ }) {
-                DropdownMenuItem(
-                    text = { Text(text = "MediaStore.Video") },
-                    onClick = {
-                        expand = false
-                        MediaStore.Video.Media.ALBUM
-                    })
-                DropdownMenuItem(
-                    text = { Text(text = "MediaStore.Video") },
-                    onClick = { expand = false })
-                DropdownMenuItem(
-                    text = { Text(text = "MediaStore.Video") },
-                    onClick = { expand = false })
-            }
+            //상단 드롭다운
+            DropDown()
 
             //미디어 리스트
             Box(modifier = Modifier.height(500.dp)) {
                 CursorToItem(list = list)
             }
 
-            //하단 버튼
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.Bottom,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Button(onClick = {
-                    Log.d("MediaDbTest", "query!")
-                    val cursor = MediaStoreManager.test(context = context)
-                    cursor?.let { list = PictureAll.parse(cursor = it) }
-                }) {
-                    Text(text = "Query!")
-                }
-                Button(onClick = {
-                    launch.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                }) {
-                    Text(text = "Permission")
-                }
+            //하단 메뉴
+            BottomMenu {
+                Log.d(TAG, "!!!!!");
+                val cursor = MediaStoreManager.test(context = context)
+                cursor?.let { list = PictureAll.parse(cursor = it) }
             }
         }
     }
@@ -108,4 +67,59 @@ fun CursorToItem(list: List<PictureAll>) {
             Text(text = "----------------------------------------")
         }
     })
+}
+
+@Composable
+fun DropDown() {
+    var expand by remember { mutableStateOf(false) }
+    Button(onClick = {
+        expand = true
+    }) {
+        Text(text = "MediaStore")
+    }
+    DropdownMenu(
+        expanded = expand, onDismissRequest = { /*TODO*/ }) {
+        DropdownMenuItem(
+            text = { Text(text = "MediaStore.Video") },
+            onClick = {
+                expand = false
+                MediaStore.Video.Media.ALBUM
+            })
+        DropdownMenuItem(
+            text = { Text(text = "MediaStore.Video") },
+            onClick = { expand = false })
+        DropdownMenuItem(
+            text = { Text(text = "MediaStore.Video") },
+            onClick = { expand = false })
+    }
+}
+
+@Composable
+fun BottomMenu(query: (Int) -> Unit) {
+    val launch = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = {
+
+        })
+
+    val context = LocalContext.current
+    //하단 버튼
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        verticalArrangement = Arrangement.Bottom,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = {
+            query.invoke(0)
+        }) {
+            Text(text = "Query!")
+        }
+        Button(onClick = {
+            launch.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }) {
+            Text(text = "Permission")
+        }
+    }
 }

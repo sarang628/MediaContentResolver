@@ -1,4 +1,4 @@
-package com.example.mediacontentresolverlibrary
+package com.example.mediacontentresolverlibrary.example
 
 import android.Manifest
 import androidx.compose.runtime.Composable

@@ -1,4 +1,4 @@
-package com.example.mediacontentresolverlibrary
+package com.example.mediacontentresolverlibrary.example
 
 import android.Manifest
 import android.provider.MediaStore
@@ -28,12 +28,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.mediacontentresolverlibrary.data.PictureAll
+import java.util.Objects
 
 @Preview
 @Composable
 fun PreviewComposeMediaDbTest() {
 
-    var list: List<PictureAll> by remember { mutableStateOf(ArrayList<PictureAll>()) }
+    //var list: List<PictureAll> by remember { mutableStateOf(ArrayList<PictureAll>()) }
+    var list: List<String> by remember { mutableStateOf(ArrayList()) }
     val TAG = "MediaDbTest";
     val context = LocalContext.current
 
@@ -51,7 +53,8 @@ fun PreviewComposeMediaDbTest() {
             BottomMenu {
                 Log.d(TAG, "!!!!!");
                 val cursor = MediaStoreManager.test(context = context)
-                cursor?.let { list = PictureAll.parse(cursor = it) }
+                list = CursorUtil.toStringList(cursor)
+                //cursor?.let { list = PictureAll.parse(cursor = it) }
             }
         }
     }
@@ -59,12 +62,10 @@ fun PreviewComposeMediaDbTest() {
 }
 
 @Composable
-fun CursorToItem(list: List<PictureAll>) {
+fun CursorToItem(list: List<String>) {
     LazyColumn(content = {
         items(list.size) {
-            Text(text = "----------------------------------------")
-            Text(list.get(it).toString())
-            Text(text = "----------------------------------------")
+            Text(list.get(it))
         }
     })
 }

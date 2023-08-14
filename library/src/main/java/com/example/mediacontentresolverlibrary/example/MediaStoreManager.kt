@@ -1,4 +1,4 @@
-package com.example.mediacontentresolverlibrary
+package com.example.mediacontentresolverlibrary.example
 
 import android.content.Context
 import android.database.Cursor

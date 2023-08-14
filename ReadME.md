@@ -1,5 +1,4 @@
-# 안드로이드 미디어 문서
-https://developer.android.com/training/data-storage/shared/media
+# [안드로이드 미디어 문서](https://developer.android.com/training/data-storage/shared/media)
 
 안드로이드 프레임워크는 media store라는 최적화된 인덱스를 제공. 
 쉽게 미디어를 수정하고 업데이트 할 수 있게 해줌. 
@@ -9,14 +8,14 @@ Note: 자신의 앱에서만 값을 제공하는 미디어파일을 작업하고
 https://developer.android.com/training/data-storage/app-specific#media
 ```
 
-## Photo picker
+## [Photo picker](https://developer.android.com/training/data-storage/shared/media#photo_picker)
 media store 대신 Android photo picker을 사용 가능. 
 OS에 탑제 되어 권한없이 사용자가 안전하게 사진을 선택. 
 지원되는 기기들이 한정되어있으니 참고바랍니다.
 
 https://developer.android.com/training/data-storage/shared/photopicker
 
-## Media Store
+## [Media Store](https://developer.android.com/training/data-storage/shared/media#media_store)
 media store 는 ContentResolver 사용해 접근할 수 있습니다. 
 ```
 val projection = arrayOf(media-database-columns-to-retrieve)
@@ -52,7 +51,7 @@ applicationContext.contentResolver.query(
 - scoped storage를 지원하지 않는다면 모든 파일 표시
 Most developers don't need to use MediaStore.Files to view media files from other apps, but if you have a specific requirement to do so, you can declare the READ_EXTERNAL_STORAGE permission. We recommend, however, that you use the MediaStore APIs to open files that your app hasn't created.
 
-# Request necessary permissions
+# [Request necessary permissions](https://developer.android.com/training/data-storage/shared/media#request-permissions)
 미디어 파일에 접근을 위해서는 권한을 요청해야합니다. 필요로하는 파일에 해당하는 권한만 요청하도록, 권한이 어떤 파일들을 접근을 가능하게 해주는지 잘 파악해야합니다.
 
 ## 저장소 권한

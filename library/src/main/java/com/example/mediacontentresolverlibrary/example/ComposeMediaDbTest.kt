@@ -2,7 +2,6 @@ package com.example.mediacontentresolverlibrary.example
 
 import android.Manifest
 import android.provider.MediaStore
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -27,17 +25,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.mediacontentresolverlibrary.data.PictureAll
-import java.util.Objects
+import com.example.mediacontentresolverlibrary.media_content_util.MediaContentResolver
+import com.example.mediacontentresolverlibrary.media_content_util.MediaContentResolverImpl
 
 @Preview
 @Composable
 fun PreviewComposeMediaDbTest() {
-
-    //var list: List<PictureAll> by remember { mutableStateOf(ArrayList<PictureAll>()) }
     var list: List<String> by remember { mutableStateOf(ArrayList()) }
     val TAG = "MediaDbTest";
     val context = LocalContext.current
+
+    val mediaContentResolver: MediaContentResolver = MediaContentResolverImpl(LocalContext.current)
 
     Box(Modifier.fillMaxSize()) {
         Column {
@@ -46,28 +44,16 @@ fun PreviewComposeMediaDbTest() {
 
             //미디어 리스트
             Box(modifier = Modifier.height(500.dp)) {
-                CursorToItem(list = list)
+
             }
 
             //하단 메뉴
             BottomMenu {
-                Log.d(TAG, "!!!!!");
-                val cursor = MediaStoreManager.test(context = context)
-                list = CursorUtil.toStringList(cursor)
-                //cursor?.let { list = PictureAll.parse(cursor = it) }
+                mediaContentResolver.printAvailableMediaColunmWithContents()
             }
         }
     }
 
-}
-
-@Composable
-fun CursorToItem(list: List<String>) {
-    LazyColumn(content = {
-        items(list.size) {
-            Text(list.get(it))
-        }
-    })
 }
 
 @Composable

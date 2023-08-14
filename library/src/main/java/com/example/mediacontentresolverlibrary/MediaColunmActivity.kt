@@ -6,7 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
-import com.example.mediacontentresolverlibrary.MediaContentResolver
+import com.example.mediacontentresolverlibrary.media_content_util.MediaContentResolver
 
 class MediaColunmActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

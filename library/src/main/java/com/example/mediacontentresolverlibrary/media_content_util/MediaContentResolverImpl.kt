@@ -1,4 +1,4 @@
-package com.example.mediacontentresolverlibrary
+package com.example.mediacontentresolverlibrary.media_content_util
 
 import android.Manifest
 import android.app.Activity
@@ -9,11 +9,10 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import com.example.mediacontentresolverlibrary.ImageData
 import com.example.mediacontentresolverlibrary.data.PictureDetail
-import java.util.Arrays
 import java.util.TreeMap
 
 internal class MediaContentResolverImpl(private val context: Context) : MediaContentResolver {
@@ -149,8 +148,9 @@ internal class MediaContentResolverImpl(private val context: Context) : MediaCon
             while (cursor.moveToNext()) {
                 try {
                     val columnNames = cursor.columnNames
+                    val index = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
                     val data =
-                        cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                        cursor.getString(index)
                     var info = StringBuffer()
                     for (colunmName in columnNames) {
                         val index = cursor.getColumnIndex(colunmName)
@@ -194,72 +194,18 @@ internal class MediaContentResolverImpl(private val context: Context) : MediaCon
     }
 
     override fun getPictureListCursor(folderPath: String): Cursor? {
-        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val projection = arrayOf(
-            MediaStore.Images.Media.DATA,
-            MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-            MediaStore.Images.Media.DATE_TAKEN
-        )
-        val selection = "${MediaStore.Video.Media.BUCKET_DISPLAY_NAME} = ?"
-        val selectionArgs = arrayOf(folderPath)
-        val sortOrder = "${MediaStore.Video.Media.DATE_TAKEN} DESC"
-        return context.contentResolver.query(uri, projection, selection, selectionArgs, sortOrder)
+        return getPictureListCursor(context, folderPath)
     }
 
     override fun getFolderListCursor(): Cursor? {
-        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val projection = arrayOf(
-            MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-            MediaStore.Images.Media.BUCKET_ID
-        )
-        val cursor = context.contentResolver.query(uri, projection, null, null, null)
-        return cursor
+        return getFolderListCursor(context)
     }
 
     override fun printAvailableMediaColunm() {
-        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val cursor = context.contentResolver.query(uri, null, null, null, null)
-
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                try {
-                    val columnNames = cursor.columnNames
-                    cursor.close()
-                    Log.d("__sryang", Arrays.toString(columnNames))
-                    return
-                } catch (e: Exception) {
-
-                }
-            }
-            cursor.close()
-        }
+        printAvailableMediaColunm(context)
     }
 
     override fun printAvailableMediaColunmWithContents() {
-        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val cursor = context.contentResolver.query(uri, null, null, null, null)
-
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                try {
-                    val columnNames = cursor.columnNames
-                    for (colunmName in columnNames) {
-                        val index = cursor.getColumnIndex(colunmName)
-                        if (cursor.getType(index) == Cursor.FIELD_TYPE_INTEGER) {
-                            Log.d("__sryang", colunmName + ":" + cursor.getInt(index).toString())
-                        } else if (cursor.getType(index) == Cursor.FIELD_TYPE_FLOAT) {
-                            Log.d("__sryang", colunmName + ":" + cursor.getFloat(index).toString())
-                        } else if (cursor.getType(index) == Cursor.FIELD_TYPE_STRING) {
-                            Log.d("__sryang", colunmName + ":" + cursor.getString(index).toString())
-                        }
-                    }
-                    cursor.close()
-                    return
-                } catch (e: Exception) {
-
-                }
-            }
-            cursor.close()
-        }
+        printAvailableMediaColunmWithContents(context)
     }
 }

@@ -6,7 +6,7 @@ import android.database.Cursor
 import android.provider.MediaStore
 import android.util.Log
 import com.example.mediacontentresolverlibrary.ImageData
-import com.example.mediacontentresolverlibrary.MediaContentResolver
+import com.example.mediacontentresolverlibrary.media_content_util.MediaContentResolver
 import com.example.mediacontentresolverlibrary.data.PictureDetail
 import java.lang.Exception
 import java.util.*

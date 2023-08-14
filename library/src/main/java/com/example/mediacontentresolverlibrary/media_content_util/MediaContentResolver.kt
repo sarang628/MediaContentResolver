@@ -1,9 +1,9 @@
-package com.example.mediacontentresolverlibrary
+package com.example.mediacontentresolverlibrary.media_content_util
 
 import android.app.Activity
 import android.content.Context
 import android.database.Cursor
-import android.provider.MediaStore
+import com.example.mediacontentresolverlibrary.ImageData
 import com.example.mediacontentresolverlibrary.data.PictureDetail
 import com.example.mediacontentresolverlibrary.saf.SAFMediaContentResolverImpl
 
@@ -32,7 +32,14 @@ interface MediaContentResolver {
 
     fun getFolderListCursor(): Cursor?
 
+    /**
+     * 사용 가능한 컬럼 보기
+     */
     fun printAvailableMediaColunm()
+
+    /**
+     * 사용 가능한 미디어 컬럼과 내용 출력
+     */
     fun printAvailableMediaColunmWithContents()
 
     companion object {

@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import com.example.mediacontentresolverlibrary.ImageData
@@ -16,6 +17,8 @@ import com.example.mediacontentresolverlibrary.data.PictureDetail
 import java.util.TreeMap
 
 internal class MediaContentResolverImpl(private val context: Context) : MediaContentResolver {
+
+    val TAG = "MediaContentResolverImpl"
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     override fun requestPermission(activity: Activity) {
@@ -37,6 +40,9 @@ internal class MediaContentResolverImpl(private val context: Context) : MediaCon
         }
     }
 
+    /**
+     * 폴더 리스트
+     */
     override fun getFolderList(): ArrayList<String> {
         val cursor = getFolderListCursor()
         val folderMap: MutableMap<String, String> = TreeMap()
@@ -46,6 +52,7 @@ internal class MediaContentResolverImpl(private val context: Context) : MediaCon
                 val folder = cursor.getString(columnIndex)
                 try {
                     if (folderMap[folder] == null) folderMap[folder] = folder
+                    Log.d(TAG, "" + folderMap.toString())
                 } catch (e: Exception) {
 
                 }

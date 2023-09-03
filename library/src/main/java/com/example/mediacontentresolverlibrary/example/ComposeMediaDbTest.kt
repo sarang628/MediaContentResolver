@@ -1,7 +1,6 @@
 package com.example.mediacontentresolverlibrary.example
 
 import android.Manifest
-import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -12,8 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,10 +37,10 @@ fun PreviewComposeMediaDbTest() {
     Box(Modifier.fillMaxSize()) {
         Column {
             //상단 드롭다운
-            DropDown()
+            DropDown(mediaContentResolver)
 
             //미디어 리스트
-            Box(modifier = Modifier.height(500.dp)) {
+            Box(modifier = Modifier.height(100.dp)) {
 
             }
 
@@ -57,27 +54,53 @@ fun PreviewComposeMediaDbTest() {
 }
 
 @Composable
-fun DropDown() {
-    var expand by remember { mutableStateOf(false) }
-    Button(onClick = {
-        expand = true
-    }) {
-        Text(text = "MediaStore")
-    }
-    DropdownMenu(
-        expanded = expand, onDismissRequest = { /*TODO*/ }) {
-        DropdownMenuItem(
-            text = { Text(text = "MediaStore.Video") },
-            onClick = {
-                expand = false
-                MediaStore.Video.Media.ALBUM
-            })
-        DropdownMenuItem(
-            text = { Text(text = "MediaStore.Video") },
-            onClick = { expand = false })
-        DropdownMenuItem(
-            text = { Text(text = "MediaStore.Video") },
-            onClick = { expand = false })
+fun DropDown(mediaContentResolver: MediaContentResolver) {
+    Column {
+        Button(onClick = {
+            //mediaContentResolver.requestPermission()
+        }) {
+            Text(text = "requestPermission")
+        }
+        Button(onClick = {
+            mediaContentResolver.getFolderList()
+        }) {
+            Text(text = "getFolderList")
+        }
+        Button(onClick = {
+            mediaContentResolver.getFolderListImageData()
+        }) {
+            Text(text = "getFolderListImageData")
+        }
+        Button(onClick = { mediaContentResolver.getFolderListWithCount() }) {
+            Text(text = "getFolderListWithCount")
+        }
+        Button(onClick = {
+            mediaContentResolver.getPictureList()
+        }) {
+            Text(text = "getPictureList")
+        }
+        Button(onClick = { mediaContentResolver.getDetailPictureList() }) {
+            Text(text = "getDetailPictureList")
+        }
+        Button(onClick = {
+            //mediaContentResolver.getPictureListImageData()
+        }) {
+            Text(text = "getPictureListImageData")
+        }
+        Button(onClick = {
+            //mediaContentResolver.getPictureListCursor()
+        }) {
+            Text(text = "getPictureListCursor")
+        }
+        Button(onClick = { mediaContentResolver.getFolderListCursor() }) {
+            Text(text = "getFolderListCursor")
+        }
+        Button(onClick = { mediaContentResolver.printAvailableMediaColunm() }) {
+            Text(text = "printAvailableMediaColunm")
+        }
+        Button(onClick = { mediaContentResolver.printAvailableMediaColunmWithContents() }) {
+            Text(text = "printAvailableMediaColunmWithContents")
+        }
     }
 }
 
